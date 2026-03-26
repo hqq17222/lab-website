@@ -1,26 +1,30 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Calendar, Tag } from 'lucide-react'
 import type { Translations } from '../i18n'
-import newsData from '../data/news.json'
+import { supabase, type NewsItem } from '../lib/supabase'
 
 interface NewsProps { t: Translations }
-
 type Category = 'all' | 'research' | 'award' | 'event'
 
 export function News({ t }: NewsProps) {
+  const [items, setItems] = useState<NewsItem[]>([])
   const [activeCategory, setActiveCategory] = useState<Category>('all')
   const isZh = t.news.categories.all === '全部'
 
+  useEffect(() => {
+    supabase.from('news').select('*').order('date', { ascending: false }).then(({ data }) => {
+      if (data) setItems(data)
+    })
+  }, [])
+
   const categories: Array<{ key: Category; label: string }> = [
-    { key: 'all',      label: t.news.categories.all },
+    { key: 'all', label: t.news.categories.all },
     { key: 'research', label: t.news.categories.research },
-    { key: 'award',    label: t.news.categories.award },
-    { key: 'event',    label: t.news.categories.event },
+    { key: 'award', label: t.news.categories.award },
+    { key: 'event', label: t.news.categories.event },
   ]
 
-  const filtered = activeCategory === 'all'
-    ? newsData.items
-    : newsData.items.filter(n => n.category === activeCategory)
+  const filtered = activeCategory === 'all' ? items : items.filter(n => n.category === activeCategory)
 
   return (
     <div className="min-h-screen pt-16">
@@ -32,37 +36,28 @@ export function News({ t }: NewsProps) {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Category filter */}
         <div className="flex flex-wrap gap-2 mb-10">
           {categories.map(({ key, label }) => (
-            <button
-              key={key}
-              onClick={() => setActiveCategory(key)}
+            <button key={key} onClick={() => setActiveCategory(key)}
               className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
                 activeCategory === key
                   ? 'bg-forest-600 text-white'
                   : 'bg-forest-100 dark:bg-forest-800 text-forest-700 dark:text-forest-200 hover:bg-forest-200 dark:hover:bg-forest-700'
-              }`}
-            >
+              }`}>
               {label}
             </button>
           ))}
         </div>
 
         <div className="space-y-6">
-          {filtered.map((item, i) => (
-            <article
-              key={i}
-              className="bg-white dark:bg-forest-800 border border-forest-100 dark:border-forest-700 rounded-xl p-6 hover:shadow-sm transition-shadow"
-            >
+          {filtered.map(item => (
+            <article key={item.id} className="bg-white dark:bg-forest-800 border border-forest-100 dark:border-forest-700 rounded-xl p-6 hover:shadow-sm transition-shadow">
               <div className="flex flex-wrap items-center gap-3 mb-3">
                 <span className="inline-flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500">
-                  <Calendar size={12} />
-                  {item.date}
+                  <Calendar size={12} /> {item.date}
                 </span>
                 <span className="inline-flex items-center gap-1 text-xs bg-forest-100 dark:bg-forest-700 text-forest-600 dark:text-forest-300 px-2 py-0.5 rounded-full">
-                  <Tag size={11} />
-                  {t.news.categories[item.category as Category]}
+                  <Tag size={11} /> {t.news.categories[item.category]}
                 </span>
               </div>
               <h3 className="font-semibold text-forest-800 dark:text-forest-100 text-lg leading-snug mb-2">
@@ -73,6 +68,9 @@ export function News({ t }: NewsProps) {
               </p>
             </article>
           ))}
+          {filtered.length === 0 && (
+            <p className="text-center text-gray-400 py-10">暂无内容</p>
+          )}
         </div>
       </div>
     </div>

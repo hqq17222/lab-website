@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
-import { Sun, Moon, Menu, X, Globe } from 'lucide-react'
+import { NavLink, Link } from 'react-router-dom'
+import { Sun, Moon, Menu, X, Globe, LogIn, LayoutDashboard } from 'lucide-react'
 import type { Lang, Translations } from '../i18n'
+import { useAuth } from '../context/AuthContext'
 
 interface HeaderProps {
   t: Translations
@@ -13,6 +14,7 @@ interface HeaderProps {
 
 export function Header({ t, lang, setLang, dark, toggleDark }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const { user } = useAuth()
 
   const navLinks = [
     { to: '/',            label: t.nav.home },
@@ -83,6 +85,21 @@ export function Header({ t, lang, setLang, dark, toggleDark }: HeaderProps) {
             >
               {dark ? <Sun size={17} /> : <Moon size={17} />}
             </button>
+
+            {/* Login / Admin */}
+            {user ? (
+              <Link to="/admin"
+                className="hidden sm:flex items-center gap-1 px-2 py-1.5 rounded-md text-sm font-medium text-forest-600 dark:text-forest-300 hover:bg-forest-50 dark:hover:bg-forest-900 transition-colors">
+                <LayoutDashboard size={15} />
+                <span>管理</span>
+              </Link>
+            ) : (
+              <Link to="/login"
+                className="hidden sm:flex items-center gap-1 px-2 py-1.5 rounded-md text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-forest-50 dark:hover:bg-forest-900 transition-colors">
+                <LogIn size={15} />
+                <span>登录</span>
+              </Link>
+            )}
 
             {/* Mobile menu */}
             <button
