@@ -3,7 +3,7 @@ backend:
   repo: hqq17222/lab-website
   branch: main
   auth_type: pkce
-  app_id: REPLACE_WITH_YOUR_OAUTH_APP_CLIENT_ID
+  app_id: Ov23liXEpMvEY4Ac4eGR
 
 # 访问地址: https://hqq17222.github.io/lab-website/admin/
 publish_mode: editorial_workflow
