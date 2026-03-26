@@ -1,0 +1,22 @@
+{
+  "pi": {
+    "name_zh": "黄青青",
+    "name_en": "Qingqing Huang",
+    "title_zh": "实验室负责人 / 教授",
+    "title_en": "Principal Investigator / Professor",
+    "bio_zh": "黄青青教授长期从事林业装备智能化与天空地一体化资源管理研究，在林业机械设计及遥感技术应用等领域取得重要成果，主持和参与多项国家级、省部级科研项目。",
+    "bio_en": "Prof. Qingqing Huang has long been engaged in research on intelligent forestry equipment and sky-ground integrated resource management. She has achieved important results in forestry machinery design and remote sensing applications, and has led and participated in multiple national and provincial research projects.",
+    "email": "huangqq@bjfu.edu.cn",
+    "researchgate": "https://www.researchgate.net/profile/Qingqing-Huang-6"
+  },
+  "members": [
+    {
+      "name_zh": "成员姓名",
+      "name_en": "Member Name",
+      "role_zh": "博士研究生",
+      "role_en": "PhD Student",
+      "direction_zh": "研究方向",
+      "direction_en": "Research Direction"
+    }
+  ]
+}

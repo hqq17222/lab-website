@@ -1,39 +1,16 @@
 import { ExternalLink } from 'lucide-react'
 import type { Translations } from '../i18n'
+import pubData from '../data/publications.json'
 
 const RESEARCHGATE = 'https://www.researchgate.net/profile/Qingqing-Huang-6'
 
 interface PublicationsProps { t: Translations }
 
-// Placeholder publications — replace with real ones
-const placeholderPubs = [
-  {
-    year: 2024,
-    title: '基于多源遥感数据的森林蓄积量估测研究',
-    authors: 'Huang Q., et al.',
-    journal: 'Forest Ecology and Management',
-    doi: '',
-  },
-  {
-    year: 2024,
-    title: '大型林业作业机械智能控制系统设计与仿真',
-    authors: 'Huang Q., et al.',
-    journal: '林业工程学报',
-    doi: '',
-  },
-  {
-    year: 2023,
-    title: '天空地一体化林业资源监测框架构建',
-    authors: 'Huang Q., et al.',
-    journal: 'Remote Sensing',
-    doi: '',
-  },
-]
-
 export function Publications({ t }: PublicationsProps) {
+  const isZh = t.publications.title === '学术成果'
+
   return (
     <div className="min-h-screen pt-16">
-      {/* Header */}
       <div className="bg-gradient-to-br from-forest-800 to-forest-950 text-white py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-3xl sm:text-4xl font-serif font-bold mb-4">{t.publications.title}</h1>
@@ -56,13 +33,12 @@ export function Publications({ t }: PublicationsProps) {
           <ExternalLink size={24} className="flex-shrink-0 ml-4" />
         </a>
 
-        {/* Publication list */}
         <h2 className="text-xl font-serif font-bold text-forest-800 dark:text-forest-100 mb-6">
           {t.publications.recent}
         </h2>
 
         <div className="space-y-4">
-          {placeholderPubs.map((pub, i) => (
+          {pubData.items.map((pub, i) => (
             <div
               key={i}
               className="bg-white dark:bg-forest-800 border border-forest-100 dark:border-forest-700 rounded-xl p-6 hover:shadow-sm transition-shadow"
@@ -73,19 +49,26 @@ export function Publications({ t }: PublicationsProps) {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-forest-800 dark:text-forest-100 leading-snug">
-                    {pub.title}
+                    {isZh ? pub.title_zh : pub.title_en}
                   </h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{pub.authors}</p>
                   <p className="text-sm text-forest-600 dark:text-forest-300 mt-1 italic">{pub.journal}</p>
+                  {pub.doi && (
+                    <a
+                      href={pub.url || `https://doi.org/${pub.doi}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-xs text-wood-500 hover:underline mt-1"
+                    >
+                      <ExternalLink size={11} />
+                      DOI: {pub.doi}
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
           ))}
         </div>
-
-        <p className="text-center text-sm text-gray-400 dark:text-gray-500 mt-8 italic">
-          以上为占位内容，请替换为真实论文信息 / Placeholder — replace with actual publications
-        </p>
       </div>
     </div>
   )

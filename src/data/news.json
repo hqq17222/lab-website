@@ -1,0 +1,12 @@
+{
+  "items": [
+    {
+      "date": "2024-11-20",
+      "category": "research",
+      "title_zh": "新闻标题",
+      "title_en": "News Title",
+      "summary_zh": "新闻摘要内容。",
+      "summary_en": "News summary content."
+    }
+  ]
+}
