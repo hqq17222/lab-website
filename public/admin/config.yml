@@ -1,12 +1,9 @@
 backend:
-  name: github
-  repo: hqq17222/lab-website
+  name: git-gateway
   branch: main
-  auth_type: pkce
-  app_id: Ov23liXEpMvEY4Ac4eGR
 
 media_folder: public/images
-public_folder: /lab-website/images
+public_folder: /images
 
 collections:
   - name: team
