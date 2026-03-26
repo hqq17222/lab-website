@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Outlet } from 'react-router-dom'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 import { Home } from './pages/Home'
@@ -21,6 +21,27 @@ import { ProtectedRoute } from './components/ProtectedRoute'
 import { AuthProvider } from './context/AuthContext'
 import { useLang } from './hooks/useLang'
 import { useTheme } from './hooks/useTheme'
+import type { Lang, Translations } from './i18n'
+
+interface LayoutProps {
+  t: Translations
+  lang: Lang
+  setLang: (l: Lang) => void
+  dark: boolean
+  toggleDark: () => void
+}
+
+function PublicLayout({ t, lang, setLang, dark, toggleDark }: LayoutProps) {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header t={t} lang={lang} setLang={setLang} dark={dark} toggleDark={toggleDark} />
+      <main className="flex-1">
+        <Outlet />
+      </main>
+      <Footer t={t} />
+    </div>
+  )
+}
 
 function AppInner() {
   const { lang, setLang, t } = useLang()
@@ -28,34 +49,22 @@ function AppInner() {
 
   return (
     <Routes>
-      {/* Public site */}
-      <Route path="/" element={
-        <div className="min-h-screen flex flex-col">
-          <Header t={t} lang={lang} setLang={setLang} dark={dark} toggleDark={toggleDark} />
-          <main className="flex-1">
-            <Routes>
-              <Route index element={<Home t={t} />} />
-              <Route path="research" element={<Research t={t} />} />
-              <Route path="team" element={<Team t={t} />} />
-              <Route path="publications" element={<Publications t={t} />} />
-              <Route path="projects" element={<Projects t={t} />} />
-              <Route path="news" element={<News t={t} />} />
-              <Route path="contact" element={<Contact t={t} />} />
-            </Routes>
-          </main>
-          <Footer t={t} />
-        </div>
-      } />
+      {/* Public */}
+      <Route element={<PublicLayout t={t} lang={lang} setLang={setLang} dark={dark} toggleDark={toggleDark} />}>
+        <Route index element={<Home t={t} />} />
+        <Route path="research" element={<Research t={t} />} />
+        <Route path="team" element={<Team t={t} />} />
+        <Route path="publications" element={<Publications t={t} />} />
+        <Route path="projects" element={<Projects t={t} />} />
+        <Route path="news" element={<News t={t} />} />
+        <Route path="contact" element={<Contact t={t} />} />
+      </Route>
 
       {/* Login */}
-      <Route path="/login" element={<Login />} />
+      <Route path="login" element={<Login />} />
 
       {/* Admin */}
-      <Route path="/admin" element={
-        <ProtectedRoute>
-          <AdminLayout />
-        </ProtectedRoute>
-      }>
+      <Route path="admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
         <Route index element={<Dashboard />} />
         <Route path="team" element={<ProtectedRoute requireDataAdmin><TeamAdmin /></ProtectedRoute>} />
         <Route path="publications" element={<ProtectedRoute requireDataAdmin><PublicationsAdmin /></ProtectedRoute>} />
