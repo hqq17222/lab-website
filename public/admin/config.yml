@@ -5,16 +5,10 @@ backend:
   auth_type: pkce
   app_id: Ov23liXEpMvEY4Ac4eGR
 
-# 访问地址: https://hqq17222.github.io/lab-website/admin/
-publish_mode: editorial_workflow
-
 media_folder: public/images
 public_folder: /lab-website/images
 
-locale: zh_Hans
-
 collections:
-  # ── 团队成员 ──────────────────────────────────────
   - name: team
     label: 团队成员
     files:
@@ -40,12 +34,11 @@ collections:
             fields:
               - { label: 姓名（中文）, name: name_zh, widget: string }
               - { label: Name (English), name: name_en, widget: string }
-              - { label: 角色（中文）, name: role_zh, widget: string, hint: "如：博士研究生、硕士研究生" }
+              - { label: 角色（中文）, name: role_zh, widget: string }
               - { label: Role (English), name: role_en, widget: string }
               - { label: 研究方向（中文）, name: direction_zh, widget: string }
               - { label: Research Direction (English), name: direction_en, widget: string }
 
-  # ── 学术成果 ──────────────────────────────────────
   - name: publications
     label: 学术成果
     files:
@@ -65,7 +58,6 @@ collections:
               - { label: DOI, name: doi, widget: string, required: false }
               - { label: 链接 URL, name: url, widget: string, required: false }
 
-  # ── 项目与平台 ─────────────────────────────────────
   - name: projects
     label: 项目与平台
     files:
@@ -73,7 +65,7 @@ collections:
         label: 项目信息
         name: projects
         fields:
-          - { label: 天空地数据平台 URL（留空则显示"即将上线"）, name: data_platform_url, widget: string, required: false }
+          - { label: 天空地数据平台 URL（留空则显示即将上线）, name: data_platform_url, widget: string, required: false }
           - label: 项目列表
             name: items
             widget: list
@@ -82,11 +74,10 @@ collections:
               - { label: Project Title (English), name: title_en, widget: string }
               - { label: 资助来源（中文）, name: source_zh, widget: string }
               - { label: Funding Source (English), name: source_en, widget: string }
-              - { label: 执行期限, name: period, widget: string, hint: "如：2023–2026" }
-              - { label: 状态（中文）, name: status_zh, widget: string, hint: "在研 / 已结题" }
-              - { label: Status (English), name: status_en, widget: string, hint: "Ongoing / Completed" }
+              - { label: 执行期限, name: period, widget: string }
+              - { label: 状态（中文）, name: status_zh, widget: string }
+              - { label: Status (English), name: status_en, widget: string }
 
-  # ── 新闻动态 ──────────────────────────────────────
   - name: news
     label: 新闻动态
     files:
